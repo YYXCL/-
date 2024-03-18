@@ -1,0 +1,20 @@
+{
+    "schema_version": "v1",
+    "name_for_human": "电影推荐系统YY",
+    "name_for_model": "Movie_recommendation_system",
+    "description_for_human": "个性化的电影推荐服务，可以向你推荐电影列表，在标记为喜欢或不喜欢的电影后，加入个人收藏夹，可以查看相关的电影信息。此外，用户还可以在收藏夹进行搜索、筛选和排序。",
+    "description_for_model": "识别用户的偏好和兴趣，向用户生成个性化的电影推荐结果。帮助用户管理个人收藏夹，可以增加、删除、浏览收藏夹里的电影信息，帮助用户对收藏夹内的信息进行搜索、筛选和排序。",
+    "auth": {
+        "type": "service_http"
+    },
+    "api": {
+        "type": "openapi",
+        "url": "http://111.67.192.242:8089/openapi.yaml"
+    },
+    "logo_url": "https://images.creativemarket.com/0.1.0/ps/5012350/1820/1214/m1/fpnw/wm0/online-shop-1-01-.jpg?1536258181&s=d12191d242a9b616ad624a6e69888a97",
+    "contact_email": "support@example.com",
+    "legal_info_url": "http://www.example.com/legal",
+    "examples": {
+        "url": "http://111.67.192.242:8089/example.yaml"
+    }
+}

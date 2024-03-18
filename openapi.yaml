@@ -1,0 +1,201 @@
+openapi: 3.0.1
+info:
+    title: 电影推荐系统YY
+    description: 个性化的电影推荐服务，可以向你推荐电影列表，在标记为喜欢或不喜欢的电影后，加入个人收藏夹，可以查看相关的电影信息。此外，用户还可以在收藏夹进行搜索、筛选和排序。
+    version: "v1"
+servers:
+    - url: "http://111.67.192.242:8089"
+paths:
+    /get_movie_recommendations:
+        get:
+            operationId: getMovieRecommendations
+            summary: 获取为用户创建的电影推荐
+            responses:
+                "200":
+                    description: 根据用户的个性化需求，提供一个电影推荐的列表，包含电影标题、电影类型、电影简介
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/getMovieRecommendations"
+    /get_movie_list:
+        get:
+            operationId: getMovieList
+            summary: 获取为用户创建的电影收藏夹
+            responses:
+                "200":
+                    description: 展示用户标记好了的电影收藏夹
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/getMovieList"
+    /get_watch_list:
+        get:
+            operationId: getWatchList
+            summary: 获取为用户创建的观看列表
+            responses:
+                "200":
+                    description: 展示用户的观看列表，需要包含电影名称
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/getWatchList"
+    /like_movie:
+        post:
+            operationId: likeMovie
+            summary: 标记喜欢的电影并加入为用户创建的收藏夹
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: "#/components/schemas/likeMovie"
+            responses:
+                "200":
+                    description: 如果没有收藏夹就创建一个，有的话就把喜欢的电影加入收藏夹，收藏夹要包含电影名称、电影类型等信息
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/messageResponse"
+    /dislike_movie:
+        post:
+            operationId: dislikeMovie
+            summary: 标记不喜欢的电影并移出收藏夹
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: "#/components/schemas/dislikeMovie"
+            responses:
+                "200":
+                    description: 标记不喜欢的电影并从收藏夹删除
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/messageResponse"
+    /add_to_watchlist:
+        post:
+            operationId: addToWatchlist
+            summary: 将电影加入观看列表
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: "#/components/schemas/addToWatchlist"
+            responses:
+                "200":
+                    description: 将用户提到的电影加入观看列表，如果没有观看列表就创建一个，观看列表需要包含电影名
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/messageResponse"
+    /remove_from_watchlist:
+        delete:
+            operationId: removeFromWatchlist
+            summary: 从观看列表中移除电影
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: "#/components/schemas/removeFromWatchlist"
+            responses:
+                "200":
+                    description: 将用户提到的电影从观看列表中移除
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/messageResponse"
+
+components:
+    schemas:
+        getMovieRecommendations:
+            type: object
+            required: [movies]
+            properties:
+                movies:
+                    type: array
+                    items:
+                        type: object
+                        properties:
+                            title:
+                                type: string
+                                description: 电影标题
+                            classification:
+                                type: string
+                                description: 电影类型
+                            intro:
+                                type: string
+                                description: 电影简介
+                            release_year:
+                                type: integer
+                                description: 上映年份
+                    description: 获取给用户创建的电影推荐列表
+        getMovieList:
+            type: object
+            required: [movies]
+            properties:
+                movies:
+                    type: array
+                    items:
+                        type: object
+                        properties:
+                            title:
+                                type: string
+                                description: 电影标题
+                            classification:
+                                type: string
+                                description: 电影类型
+                            release_year:
+                                type: integer
+                                description: 上映年份
+                    description: 获取给用户创建的电影收藏夹
+        getWatchList:
+            type: object
+            required: [movies]
+            properties:
+                movies:
+                    type: array
+                    items:
+                        type: object
+                        properties:
+                            title:
+                                type: string
+                                description: 电影标题
+                    description: 获取给用户创建的观看列表
+        likeMovie:
+            type: object
+            required: [movie_id]
+            properties:
+                movie_id:
+                    type: string
+                    description: 标记喜欢的电影并放进收藏夹
+        dislikeMovie:
+            type: object
+            required: [movie_id]
+            properties:
+                movie_id:
+                    type: string
+                    description: 把不喜欢的电影移出收藏夹
+        addToWatchlist:
+            type: object
+            required: [movie_id]
+            properties:
+                movie_id:
+                    type: string
+                    description: 把用户提到的电影加入观看列表
+        removeFromWatchlist:
+            type: object
+            required: [movie_id]
+            properties:
+                movie_id:
+                    type: string
+                    description: 把用户提到的电影移除出观看列表
+        messageResponse:
+            type: object
+            required: [message]
+            properties:
+                message:
+                    type: string
+                    description: 操作结果消息

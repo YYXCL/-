@@ -1,0 +1,69 @@
+version: 0.0.1
+examples:
+    - context: # 对话历史
+          - role: user
+            content: 请给我推荐一些电影
+          - role: bot
+              # 触发插件
+            plugin:
+                # 应当触发的接口operationId
+                operationId: getMovieRecommendations
+                # 思考过程，对触发有帮助
+                thoughts: 这是一个根据用户的个性化需求，提供一个电影推荐的列表，包含电影标题、电影类型、电影简介的需求
+
+    - context: # 对话历史
+          - role: user
+            content: 显示我的收藏夹
+          - role: bot
+              # 触发插件
+            plugin:
+                # 应当触发的接口operationId
+                operationId: getMovieList
+                # 思考过程，对触发有帮助
+                thoughts: 这是一个展示用户电影收藏夹的需求
+
+    - context: # 对话历史
+          - role: user
+            content: 显示我的观看列表
+          - role: bot
+              # 触发插件
+            plugin:
+                # 应当触发的接口operationId
+                operationId: getWatchList
+                # 思考过程，对触发有帮助
+                thoughts: 这是一个展示用户的观看列表的需求
+    
+    - context: # 对话历史
+          - role: user
+            content: 将星际穿越加入我的收藏夹
+          - role: bot
+              # 触发插件
+            plugin:
+                # 应当触发的接口operationId
+                operationId: likeMovie
+                # 思考过程，对触发有帮助
+                thoughts: 这是一个标记喜欢的电影并放进收藏夹的需求
+                requestArguments:
+                  movie_id: 星际穿越
+    
+    - context: # 对话历史
+          - role: user
+            content: 将肖申克的救赎移出我的收藏夹
+          - role: bot
+              # 触发插件
+            plugin:
+                # 应当触发的接口operationId
+                operationId: likeMovie
+                # 思考过程，对触发有帮助
+                thoughts: 这是一个把不喜欢的电影移出收藏夹的需求
+                requestArguments:
+                  movie_id: 肖申克的救赎
+
+    # 反例，无需触发此插件的任一某个接口
+    - context: # 对话历史
+          - role: user
+            content: 怎么养成记单词的习惯?
+          - role: bot
+              # 无需触发
+            plugin:
+                thoughts: 我不需要使用以上工具
